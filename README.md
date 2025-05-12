@@ -80,7 +80,7 @@ Use the following credentials to log in to the Admin Panel after setup:
 
 1. Download the Project
 Go to the GitHub repository link below and click "Code" > "Download ZIP" to get all files, including the database script and README:
-🔗 https://github.com/yourusername/yourproject
+🔗 https://github.com/rutuja5916/OnlineBookStore_AdminPanel.git
    ```
 2. Extract the ZIP File
 Unzip the downloaded file to your preferred location.
