@@ -1,0 +1,96 @@
+﻿@model Sanmol_BookStore_Models.Book
+
+@{
+    ViewData["Title"] = "Edit Book";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Book</h2>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label" required></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Author" class="form-label" required></label>
+        <input asp-for="Author" class="form-control" />
+        <span asp-validation-for="Author" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ISBN" class="form-label" required></label>
+        <input asp-for="ISBN" class="form-control" />
+        <span asp-validation-for="ISBN" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label" required></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoryId" class="form-label" required>Category</label>
+        <select asp-for="CategoryId" class="form-select">
+            <option value="">-- Select Category --</option>
+            @foreach (var category in ViewBag.Categories)
+            {
+                <option value="@category.Id" selected="@(category.Id == Model.CategoryId)">
+                    @category.Name
+                </option>
+            }
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" required>Cover Image</label>
+
+        <input type="file" name="CoverImage" class="form-control" id="coverImageInput" accept=".jpg,.jpeg,.png,image/*"  />
+        <input type="hidden" name="ExistingCoverImagePath" value="@Model?.CoverImagePath" />
+        <div id="imagePreviewContainer" style="display:@(Model?.CoverImagePath != null ? "block" : "none");">
+            <img id="imagePreview"
+                 src="@Model?.CoverImagePath"
+                 alt="Image Preview"
+                 class="img-fluid"
+                 style="max-width: 150px; max-height: 150px; margin-top: 10px;" />
+        </div>
+
+        @if (ViewData.ModelState["CoverImage"]?.Errors.Count > 0)
+        {
+            <span class="text-danger">@ViewData.ModelState["CoverImage"].Errors[0].ErrorMessage</span>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        // Image preview functionality
+        document.getElementById("coverImageInput").addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const imagePreview = document.getElementById("imagePreview");
+                    const imagePreviewContainer = document.getElementById("imagePreviewContainer");
+                    imagePreview.src = e.target.result;
+                    imagePreviewContainer.style.display = "block"; // Show the preview container
+                };
+                reader.readAsDataURL(file);
+            } else {
+                document.getElementById("imagePreviewContainer").style.display = "none"; // Hide the preview if no file
+            }
+        });
+    </script>
+}
+

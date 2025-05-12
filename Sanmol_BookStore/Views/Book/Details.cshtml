@@ -1,0 +1,62 @@
+﻿@using System.Globalization
+@model Sanmol_BookStore_Models.Book
+
+@{
+    ViewData["Title"] = "Book Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var indianCulture = new CultureInfo("en-IN");
+}
+
+<h2 class="display-4 text-center text-primary mb-4">Book Details</h2>
+
+<div class="row d-flex align-items-stretch">
+    <!-- Left Column: Book Cover -->
+    <div class="col-md-3 mb-3 mb-md-0 d-flex align-items-stretch">
+        <div class="w-100 d-flex justify-content-center align-items-center bg-light rounded shadow-sm p-2">
+            @if (!string.IsNullOrEmpty(Model.CoverImagePath))
+            {
+                <img src="@Url.Content(Model.CoverImagePath)" alt="Cover Image"
+                     class="img-fluid h-100 rounded" style="object-fit: contain;" />
+            }
+            else
+            {
+                <p class="text-center m-0"><em>No cover image available.</em></p>
+            }
+        </div>
+    </div>
+
+    <!-- Right Column: Book Details -->
+    <div class="col-md-9 d-flex align-items-stretch">
+        <div class="card shadow-sm w-100 p-4">
+            <dl class="row">
+                <dt class="col-sm-4 fw-bold">Title:</dt>
+                <dd class="col-sm-8">@Model.Title</dd>
+
+                <dt class="col-sm-4 fw-bold">Author:</dt>
+                <dd class="col-sm-8">@Model.Author</dd>
+
+                <dt class="col-sm-4 fw-bold">ISBN:</dt>
+                <dd class="col-sm-8">@Model.ISBN</dd>
+
+                <dt class="col-sm-4 fw-bold">Price:</dt>
+                <dd class="col-sm-8">@Model.Price.ToString("C", indianCulture)</dd>
+
+                <dt class="col-sm-4 fw-bold">Category:</dt>
+                <dd class="col-sm-8">@Model.Category?.Name</dd>
+
+                <dt class="col-sm-4 fw-bold">Created At:</dt>
+                <dd class="col-sm-8">@Model.CreatedAt.ToString("g")</dd>
+
+                <dt class="col-sm-4 fw-bold">Last Updated:</dt>
+                <dd class="col-sm-8">@Model.UpdatedAt.ToString("g")</dd>
+            </dl>
+        </div>
+    </div>
+</div>
+
+
+<!-- Action Buttons -->
+<div class="mt-4 text-center">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-md mx-2">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary btn-md mx-2">Back to List</a>
+</div>
